@@ -9,6 +9,6 @@ public interface CategoryService {
     List<Category> findAll();
     Category findById(Long id);
     Category create(CategorySaveDto categoryBody);
-    Category edit(Long id, Category categoryBody);
+    Category edit(Long id, CategorySaveDto categoryBody);
     Category disbled(Long id);
 }

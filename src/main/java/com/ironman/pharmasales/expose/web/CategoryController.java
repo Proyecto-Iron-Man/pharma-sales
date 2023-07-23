@@ -39,9 +39,8 @@ public class CategoryController {
     }
 
     @PutMapping("/{id}")
-    ResponseEntity<Category> edit(@PathVariable("id") Long id, @RequestBody Category categoryBody) {
+    ResponseEntity<Category> edit(@PathVariable("id") Long id, @RequestBody CategorySaveDto categoryBody) {
         Category category = categoryService.edit(id, categoryBody);
-
 
         return ResponseEntity.ok(category);
     }

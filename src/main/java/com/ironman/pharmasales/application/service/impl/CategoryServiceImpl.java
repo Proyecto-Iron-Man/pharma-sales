@@ -1,6 +1,7 @@
 package com.ironman.pharmasales.application.service.impl;
 
 import com.ironman.pharmasales.application.dto.category.CategorySaveDto;
+import com.ironman.pharmasales.application.dto.category.mapper.CategoryMapper;
 import com.ironman.pharmasales.application.service.CategoryService;
 import com.ironman.pharmasales.persistence.entity.Category;
 import com.ironman.pharmasales.persistence.repository.CategoryRepository;
@@ -15,6 +16,7 @@ import java.util.List;
 public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryRepository categoryRepository;
+    private final CategoryMapper categoryMapper;
 
     @Override
     public List<Category> findAll() {
@@ -32,11 +34,9 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public Category create(CategorySaveDto categoryBody) {
-        Category categorySave = new Category();
-        categorySave.setName(categoryBody.getName());
-        categorySave.setDescription(categoryBody.getDescription());
-        categorySave.setKeyword(categoryBody.getName());
+        Category categorySave = categoryMapper.toCategory(categoryBody);
 
+        categorySave.setKeyword(categoryBody.getName());
         categorySave.setState("A");
         categorySave.setCreatedAt(LocalDateTime.now());
 
@@ -46,10 +46,18 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Category edit(Long id, Category categoryBody) {
-        categoryBody.setId(id);
+    public Category edit(Long id, CategorySaveDto categoryBody) {
+        Category categoryDb = categoryRepository.findById(id).get();
 
-        Category category = categoryRepository.save(categoryBody);
+        Category categorySave = categoryMapper.toCategory(categoryBody);
+
+        categorySave.setId(categoryDb.getId());
+        categorySave.setKeyword(categorySave.getName());
+        categorySave.setState(categoryDb.getState());
+        categorySave.setCreatedAt(categoryDb.getCreatedAt());
+        categorySave.setUpdatedAt(LocalDateTime.now());
+
+        Category category = categoryRepository.save(categorySave);
 
         return category;
     }
