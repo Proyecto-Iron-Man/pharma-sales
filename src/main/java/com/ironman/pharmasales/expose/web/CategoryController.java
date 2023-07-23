@@ -6,10 +6,7 @@ import com.ironman.pharmasales.persistence.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -33,4 +30,23 @@ public class CategoryController {
 
         return ResponseEntity.ok(category);
     }
+
+    @PostMapping
+    ResponseEntity<Category> create(@RequestBody Category categoryBody) {
+        Category category = categoryRepository.save(categoryBody);
+
+        return ResponseEntity.ok(category);
+    }
+
+    @PutMapping("/{id}")
+    ResponseEntity<Category> edit(@PathVariable("id") Long id, @RequestBody Category categoryBody) {
+        categoryBody.setId(id);
+
+        Category category = categoryRepository.save(categoryBody);
+
+
+        return ResponseEntity.ok(category);
+    }
+
+
 }
