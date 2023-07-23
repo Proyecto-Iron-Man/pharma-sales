@@ -1,11 +1,13 @@
 package com.ironman.pharmasales.application.service.impl;
 
+import com.ironman.pharmasales.application.dto.category.CategorySaveDto;
 import com.ironman.pharmasales.application.service.CategoryService;
 import com.ironman.pharmasales.persistence.entity.Category;
 import com.ironman.pharmasales.persistence.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -29,8 +31,16 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Category create(Category categoryBody) {
-        Category category = categoryRepository.save(categoryBody);
+    public Category create(CategorySaveDto categoryBody) {
+        Category categorySave = new Category();
+        categorySave.setName(categoryBody.getName());
+        categorySave.setDescription(categoryBody.getDescription());
+        categorySave.setKeyword(categoryBody.getName());
+
+        categorySave.setState("A");
+        categorySave.setCreatedAt(LocalDateTime.now());
+
+        Category category = categoryRepository.save(categorySave);
 
         return category;
     }
