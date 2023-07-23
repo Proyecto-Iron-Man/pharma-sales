@@ -1,5 +1,6 @@
 package com.ironman.pharmasales.application.service.impl;
 
+import com.ironman.pharmasales.application.dto.category.CategoryDto;
 import com.ironman.pharmasales.application.dto.category.CategorySaveDto;
 import com.ironman.pharmasales.application.dto.category.mapper.CategoryMapper;
 import com.ironman.pharmasales.application.service.CategoryService;
@@ -19,17 +20,21 @@ public class CategoryServiceImpl implements CategoryService {
     private final CategoryMapper categoryMapper;
 
     @Override
-    public List<Category> findAll() {
+    public List<CategoryDto> findAll() {
         List<Category> categories = (List<Category>) categoryRepository.findAll();
 
-        return categories;
+        List<CategoryDto> categoryDtos = categoryMapper.toCategoryDtos(categories);
+
+        return categoryDtos;
     }
 
     @Override
-    public Category findById(Long id) {
+    public CategoryDto findById(Long id) {
         Category category = categoryRepository.findById(id).get();
 
-        return category;
+        CategoryDto categoryDto = categoryMapper.toCategoryDto(category);
+
+        return categoryDto;
     }
 
     @Override
