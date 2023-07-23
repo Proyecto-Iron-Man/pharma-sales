@@ -27,4 +27,31 @@ public class CategoryServiceImpl implements CategoryService {
 
         return category;
     }
+
+    @Override
+    public Category create(Category categoryBody) {
+        Category category = categoryRepository.save(categoryBody);
+
+        return category;
+    }
+
+    @Override
+    public Category edit(Long id, Category categoryBody) {
+        categoryBody.setId(id);
+
+        Category category = categoryRepository.save(categoryBody);
+
+        return category;
+    }
+
+    @Override
+    public Category disbled(Long id) {
+        Category categoryDb = categoryRepository.findById(id).get();
+        categoryDb.setState("E");
+
+
+        Category category = categoryRepository.save(categoryDb);
+
+        return category;
+    }
 }
