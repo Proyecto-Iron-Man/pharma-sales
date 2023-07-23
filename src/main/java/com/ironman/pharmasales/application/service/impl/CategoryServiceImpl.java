@@ -6,6 +6,7 @@ import com.ironman.pharmasales.application.dto.category.mapper.CategoryMapper;
 import com.ironman.pharmasales.application.service.CategoryService;
 import com.ironman.pharmasales.persistence.entity.Category;
 import com.ironman.pharmasales.persistence.repository.CategoryRepository;
+import com.ironman.pharmasales.shared.enums.State;
 import com.ironman.pharmasales.shared.string.StringHelper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -43,7 +44,7 @@ public class CategoryServiceImpl implements CategoryService {
         Category categorySave = categoryMapper.toCategory(categoryBody);
 
         categorySave.setKeyword(new StringHelper().slugsKeywords(categorySave.getName()));
-        categorySave.setState("A");
+        categorySave.setState(State.ACTIVE.getValue());
         categorySave.setCreatedAt(LocalDateTime.now());
 
         Category category = categoryRepository.save(categorySave);
@@ -72,8 +73,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public CategoryDto disbled(Long id) {
         Category categoryDb = categoryRepository.findById(id).get();
-        categoryDb.setState("E");
-
+        categoryDb.setState(State.DISABLE.getValue());
 
         Category category = categoryRepository.save(categoryDb);
 
