@@ -1,6 +1,7 @@
 package com.ironman.pharmasales.expose.web;
 
 
+import com.ironman.pharmasales.application.service.CategoryService;
 import com.ironman.pharmasales.persistence.entity.Category;
 import com.ironman.pharmasales.persistence.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
@@ -16,17 +17,18 @@ import java.util.List;
 public class CategoryController {
 
     private final CategoryRepository categoryRepository;
+    private final CategoryService categoryService;
 
     @GetMapping
     ResponseEntity<List<Category>> findAll() {
-        List<Category> categories = (List<Category>) categoryRepository.findAll();
+        List<Category> categories = categoryService.findAll();
 
         return ResponseEntity.ok(categories);
     }
 
     @GetMapping("/{id}")
     ResponseEntity<Category> findById(@PathVariable("id") Long id) {
-        Category category = categoryRepository.findById(id).get();
+        Category category = categoryService.findById(id);
 
         return ResponseEntity.ok(category);
     }
