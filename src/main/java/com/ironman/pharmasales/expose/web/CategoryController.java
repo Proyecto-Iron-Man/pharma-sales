@@ -3,6 +3,7 @@ package com.ironman.pharmasales.expose.web;
 
 import com.ironman.pharmasales.application.dto.category.CategoryDto;
 import com.ironman.pharmasales.application.dto.category.CategorySaveDto;
+import com.ironman.pharmasales.application.dto.category.CategorySimpleDto;
 import com.ironman.pharmasales.application.service.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -51,6 +52,13 @@ public class CategoryController {
         CategoryDto category = categoryService.disbled(id);
 
         return ResponseEntity.ok(category);
+    }
+
+    @GetMapping("/select")
+    ResponseEntity<List<CategorySimpleDto>> select(){
+        List<CategorySimpleDto> categories = categoryService.select();
+
+        return ResponseEntity.ok(categories);
     }
 
 }

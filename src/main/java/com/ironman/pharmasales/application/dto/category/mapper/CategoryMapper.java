@@ -28,6 +28,7 @@ public interface CategoryMapper {
     @Mapping(target = "id", source = "id")
     @Mapping(target = "name", source = "name")
     CategorySimpleDto toCategorySimpleDto(Category category);
+    List<CategorySimpleDto> toCategorySimpleDtos(List<Category> categories);
     // Dto from Entity End
 
     // Entity from Dto Start

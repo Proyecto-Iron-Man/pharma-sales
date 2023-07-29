@@ -2,6 +2,7 @@ package com.ironman.pharmasales.application.service.impl;
 
 import com.ironman.pharmasales.application.dto.category.CategoryDto;
 import com.ironman.pharmasales.application.dto.category.CategorySaveDto;
+import com.ironman.pharmasales.application.dto.category.CategorySimpleDto;
 import com.ironman.pharmasales.application.dto.category.mapper.CategoryMapper;
 import com.ironman.pharmasales.application.service.CategoryService;
 import com.ironman.pharmasales.persistence.entity.Category;
@@ -78,5 +79,12 @@ public class CategoryServiceImpl implements CategoryService {
         Category category = categoryRepository.save(categoryDb);
 
         return categoryMapper.toCategoryDto(category);
+    }
+
+    @Override
+    public List<CategorySimpleDto> select() {
+        List<Category> categories = categoryRepository.findByState(State.ACTIVE.getValue());
+
+        return categoryMapper.toCategorySimpleDtos(categories);
     }
 }
