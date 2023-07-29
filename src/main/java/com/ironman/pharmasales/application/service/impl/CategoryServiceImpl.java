@@ -10,6 +10,9 @@ import com.ironman.pharmasales.persistence.repository.CategoryRepository;
 import com.ironman.pharmasales.shared.state.enums.State;
 import com.ironman.pharmasales.shared.string.StringHelper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -86,5 +89,20 @@ public class CategoryServiceImpl implements CategoryService {
         List<Category> categories = categoryRepository.findByState(State.ACTIVE.getValue());
 
         return categoryMapper.toCategorySimpleDtos(categories);
+    }
+
+    @Override
+    public Page<CategoryDto> pagination(Pageable pageable) {
+        Page<Category> categoryPage = categoryRepository.findAll(pageable);
+
+        List<CategoryDto> categoryDtos = categoryMapper.toCategoryDtos(categoryPage.getContent());
+
+        Page<CategoryDto> categoryDtoPage = new PageImpl<>(
+                categoryDtos,
+                categoryPage.getPageable(),
+                categoryPage.getTotalElements()
+        );
+
+        return categoryDtoPage;
     }
 }

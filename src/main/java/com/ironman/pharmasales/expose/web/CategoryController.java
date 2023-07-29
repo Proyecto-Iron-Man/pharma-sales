@@ -6,6 +6,8 @@ import com.ironman.pharmasales.application.dto.category.CategorySaveDto;
 import com.ironman.pharmasales.application.dto.category.CategorySimpleDto;
 import com.ironman.pharmasales.application.service.CategoryService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -59,6 +61,14 @@ public class CategoryController {
         List<CategorySimpleDto> categories = categoryService.select();
 
         return ResponseEntity.ok(categories);
+    }
+
+
+    @GetMapping("/pagination")
+    ResponseEntity<Page<CategoryDto>> pagination(Pageable pageable) {
+        Page<CategoryDto> categoryPage = categoryService.pagination(pageable);
+
+        return ResponseEntity.ok(categoryPage);
     }
 
 }

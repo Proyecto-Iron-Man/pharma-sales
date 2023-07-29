@@ -3,6 +3,8 @@ package com.ironman.pharmasales.application.service;
 import com.ironman.pharmasales.application.dto.category.CategoryDto;
 import com.ironman.pharmasales.application.dto.category.CategorySaveDto;
 import com.ironman.pharmasales.application.dto.category.CategorySimpleDto;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -14,4 +16,6 @@ public interface CategoryService {
     CategoryDto disbled(Long id);
 
     List<CategorySimpleDto> select();
+
+    Page<CategoryDto> pagination(Pageable pageable);
 }
