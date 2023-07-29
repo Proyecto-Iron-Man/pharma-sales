@@ -13,25 +13,26 @@ import java.util.List;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING, uses = {StateMapper.class})
 public interface CategoryMapper {
-    // Entity to Dto Start
-    @Mapping(source = "id", target = "id")
-    @Mapping(source = "name", target = "name")
-    @Mapping(source = "description", target = "description")
-    @Mapping(source = "keyword", target = "keyword")
-    @Mapping(source = "state", target = "state")
-    @Mapping(source = "createdAt", target = "createdAt")
-    @Mapping(source = "updatedAt", target = "updatedAt")
+    // Dto from Entity Start
+    @Mapping(target = "id", source = "id")
+    @Mapping(target = "name", source = "name")
+    @Mapping(target = "description", source = "description")
+    @Mapping(target = "keyword", source = "keyword")
+    @Mapping(target = "state", source = "state")
+    @Mapping(target = "createdAt", source = "createdAt")
+    @Mapping(target = "updatedAt", source = "updatedAt")
     CategoryDto toCategoryDto(Category category);
+
     List<CategoryDto> toCategoryDtos(List<Category> categories);
 
-    @Mapping(source = "id", target = "id")
-    @Mapping(source = "name", target = "name")
+    @Mapping(target = "id", source = "id")
+    @Mapping(target = "name", source = "name")
     CategorySimpleDto toCategorySimpleDto(Category category);
-    // Entity to Dto End
+    // Dto from Entity End
 
-    // Dto to Entity Start
-    @Mapping(source = "name", target = "name")
-    @Mapping(source = "description", target = "description")
+    // Entity from Dto Start
+    @Mapping(target = "name", source = "name")
+    @Mapping(target = "description", source = "description")
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "keyword", ignore = true)
     @Mapping(target = "state", ignore = true)
@@ -39,5 +40,5 @@ public interface CategoryMapper {
     @Mapping(target = "updatedAt", ignore = true)
     Category toCategory(CategorySaveDto categorySaveDto);
 
-    // Dto to Entity End
+    // Entity from Dto End
 }
