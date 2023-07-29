@@ -1,13 +1,11 @@
 package com.ironman.pharmasales.expose.web;
 
 import com.ironman.pharmasales.application.dto.subcategory.SubcategoryDto;
+import com.ironman.pharmasales.application.dto.subcategory.SubcategorySaveDto;
 import com.ironman.pharmasales.application.service.SubcategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -27,6 +25,28 @@ public class SubcategoryController {
     @GetMapping("/{id}")
     public ResponseEntity<SubcategoryDto> findById(@PathVariable("id") Long id) {
         SubcategoryDto subcategory = subcategoryService.findById(id);
+
+        return ResponseEntity.ok(subcategory);
+    }
+
+    @PostMapping
+    public ResponseEntity<SubcategoryDto> create(@RequestBody SubcategorySaveDto subcategoryBody) {
+        SubcategoryDto subcategory = subcategoryService.create(subcategoryBody);
+
+        return ResponseEntity.ok(subcategory);
+    }
+
+
+    @PutMapping("/{id}")
+    public ResponseEntity<SubcategoryDto> edit(@PathVariable("id") Long id, @RequestBody SubcategorySaveDto subcategoryBody) {
+        SubcategoryDto subcategory = subcategoryService.edit(id, subcategoryBody);
+
+        return ResponseEntity.ok(subcategory);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<SubcategoryDto> disabled(@PathVariable("id") Long id) {
+        SubcategoryDto subcategory = subcategoryService.disabled(id);
 
         return ResponseEntity.ok(subcategory);
     }
