@@ -57,12 +57,18 @@ public class CategoryController {
     }
 
     @GetMapping("/select")
-    ResponseEntity<List<CategorySimpleDto>> select(){
+    ResponseEntity<List<CategorySimpleDto>> select() {
         List<CategorySimpleDto> categories = categoryService.select();
 
         return ResponseEntity.ok(categories);
     }
 
+    @GetMapping("/search-by-state/{state}")
+    ResponseEntity<List<CategorySimpleDto>> searchByState(@PathVariable("state") String state) {
+        List<CategorySimpleDto> categories = categoryService.searchByState(state);
+
+        return ResponseEntity.ok(categories);
+    }
 
     @GetMapping("/pagination")
     ResponseEntity<Page<CategoryDto>> pagination(Pageable pageable) {

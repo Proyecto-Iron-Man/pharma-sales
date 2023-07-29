@@ -92,6 +92,13 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    public List<CategorySimpleDto> searchByState(String state) {
+        List<Category> categories = categoryRepository.searchByState(state);
+
+        return categoryMapper.toCategorySimpleDtos(categories);
+    }
+
+    @Override
     public Page<CategoryDto> pagination(Pageable pageable) {
         Page<Category> categoryPage = categoryRepository.findAll(pageable);
 
