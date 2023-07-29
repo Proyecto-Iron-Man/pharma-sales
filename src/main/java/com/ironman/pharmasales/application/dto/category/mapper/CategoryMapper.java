@@ -2,6 +2,7 @@ package com.ironman.pharmasales.application.dto.category.mapper;
 
 import com.ironman.pharmasales.application.dto.category.CategoryDto;
 import com.ironman.pharmasales.application.dto.category.CategorySaveDto;
+import com.ironman.pharmasales.application.dto.category.CategorySimpleDto;
 import com.ironman.pharmasales.persistence.entity.Category;
 import com.ironman.pharmasales.shared.state.mapper.StateMapper;
 import org.mapstruct.Mapper;
@@ -22,6 +23,10 @@ public interface CategoryMapper {
     @Mapping(source = "updatedAt", target = "updatedAt")
     CategoryDto toCategoryDto(Category category);
     List<CategoryDto> toCategoryDtos(List<Category> categories);
+
+    @Mapping(source = "id", target = "id")
+    @Mapping(source = "name", target = "name")
+    CategorySimpleDto toCategorySimpleDto(Category category);
     // Entity to Dto End
 
     // Dto to Entity Start

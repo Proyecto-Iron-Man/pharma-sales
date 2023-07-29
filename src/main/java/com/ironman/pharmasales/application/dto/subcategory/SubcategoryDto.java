@@ -1,5 +1,7 @@
 package com.ironman.pharmasales.application.dto.subcategory;
 
+import com.ironman.pharmasales.application.dto.category.CategorySimpleDto;
+import com.ironman.pharmasales.shared.state.enums.State;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -10,8 +12,8 @@ public class SubcategoryDto {
     private String name;
     private String description;
     private String keyword;
-    private Long categoryId;
-    private String state;
+    private CategorySimpleDto category;
+    private State state;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }
