@@ -4,6 +4,7 @@ import com.ironman.pharmasales.application.dto.subcategory.SubcategoryDto;
 import com.ironman.pharmasales.application.dto.subcategory.SubcategoryFilterDto;
 import com.ironman.pharmasales.application.dto.subcategory.SubcategorySaveDto;
 import com.ironman.pharmasales.application.service.SubcategoryService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -34,7 +35,7 @@ public class SubcategoryController {
     }
 
     @PostMapping
-    public ResponseEntity<SubcategoryDto> create(@RequestBody SubcategorySaveDto subcategoryBody) {
+    public ResponseEntity<SubcategoryDto> create(@Valid @RequestBody SubcategorySaveDto subcategoryBody) {
         SubcategoryDto subcategory = subcategoryService.create(subcategoryBody);
 
         return ResponseEntity.ok(subcategory);
@@ -42,7 +43,7 @@ public class SubcategoryController {
 
 
     @PutMapping("/{id}")
-    public ResponseEntity<SubcategoryDto> edit(@PathVariable("id") Long id, @RequestBody SubcategorySaveDto subcategoryBody) {
+    public ResponseEntity<SubcategoryDto> edit(@PathVariable("id") Long id, @Valid @RequestBody SubcategorySaveDto subcategoryBody) {
         SubcategoryDto subcategory = subcategoryService.edit(id, subcategoryBody);
 
         return ResponseEntity.ok(subcategory);
