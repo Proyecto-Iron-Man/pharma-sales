@@ -15,11 +15,11 @@ public interface SubcategoryService {
 
     SubcategoryDto findById(Long id) throws DataNotFoundException;
 
-    SubcategoryDto create(SubcategorySaveDto subcategoryBody);
+    SubcategoryDto create(SubcategorySaveDto subcategoryBody) throws DataNotFoundException;
 
-    SubcategoryDto edit(Long id, SubcategorySaveDto subcategoryBody);
+    SubcategoryDto edit(Long id, SubcategorySaveDto subcategoryBody) throws DataNotFoundException;
 
-    SubcategoryDto disabled(Long id);
+    SubcategoryDto disabled(Long id) throws DataNotFoundException;
 
     List<SubcategoryDto> filter(Optional<SubcategoryFilterDto> filter);
 

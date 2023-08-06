@@ -5,7 +5,9 @@ import com.ironman.pharmasales.application.dto.subcategory.SubcategoryFilterDto;
 import com.ironman.pharmasales.application.dto.subcategory.SubcategorySaveDto;
 import com.ironman.pharmasales.application.dto.subcategory.mapper.SubcategoryMapper;
 import com.ironman.pharmasales.application.service.SubcategoryService;
+import com.ironman.pharmasales.persistence.entity.Category;
 import com.ironman.pharmasales.persistence.entity.Subcategory;
+import com.ironman.pharmasales.persistence.repository.CategoryRepository;
 import com.ironman.pharmasales.persistence.repository.SubcategoryRepository;
 import com.ironman.pharmasales.shared.exception.DataNotFoundException;
 import com.ironman.pharmasales.shared.state.enums.State;
@@ -26,6 +28,7 @@ public class SubcategoryServiceImpl implements SubcategoryService {
 
     private final SubcategoryRepository subcategoryRepository;
     private final SubcategoryMapper subcategoryMapper;
+    private final CategoryRepository categoryRepository;
 
     @Override
     public List<SubcategoryDto> findAll() {
@@ -38,16 +41,20 @@ public class SubcategoryServiceImpl implements SubcategoryService {
     public SubcategoryDto findById(Long id) throws DataNotFoundException {
 
         Subcategory subcategory = subcategoryRepository.findById(id)
-                .orElseThrow(()-> new DataNotFoundException("Subcategoria no encontrado para el id: " + id));
+                .orElseThrow(()-> subcategoryNotFoundException(id));
 
         return subcategoryMapper.toSubcategoryDto(subcategory);
     }
 
     @Override
-    public SubcategoryDto create(SubcategorySaveDto subcategoryBody) {
+    public SubcategoryDto create(SubcategorySaveDto subcategoryBody) throws DataNotFoundException {
+        Category category = categoryRepository.findById(subcategoryBody.getCategoryId())
+                .orElseThrow(() -> categoryNotFoundException(subcategoryBody));
+
         Subcategory subcategorySave = subcategoryMapper.toSubcategory(subcategoryBody);
 
         subcategorySave.setKeyword(new StringHelper().slugsKeywords(subcategoryBody.getName()));
+        subcategorySave.setCategory(category);
         subcategorySave.setState(State.ACTIVE.getValue());
         subcategorySave.setCreatedAt(LocalDateTime.now());
 
@@ -57,12 +64,17 @@ public class SubcategoryServiceImpl implements SubcategoryService {
     }
 
     @Override
-    public SubcategoryDto edit(Long id, SubcategorySaveDto subcategoryBody) {
-        Subcategory subcategoryDb = subcategoryRepository.findById(id).get();
+    public SubcategoryDto edit(Long id, SubcategorySaveDto subcategoryBody) throws DataNotFoundException {
+        Subcategory subcategoryDb = subcategoryRepository.findById(id)
+                .orElseThrow(()-> subcategoryNotFoundException(id));
+
+        Category category = categoryRepository.findById(subcategoryBody.getCategoryId())
+                .orElseThrow(() -> categoryNotFoundException(subcategoryBody));
 
         subcategoryMapper.updateSubcategory(subcategoryDb, subcategoryBody);
 
         subcategoryDb.setKeyword(new StringHelper().slugsKeywords(subcategoryBody.getName()));
+        subcategoryDb.setCategory(category);
         subcategoryDb.setUpdatedAt(LocalDateTime.now());
 
         Subcategory subcategory = subcategoryRepository.save(subcategoryDb);
@@ -71,8 +83,10 @@ public class SubcategoryServiceImpl implements SubcategoryService {
     }
 
     @Override
-    public SubcategoryDto disabled(Long id) {
-        Subcategory subcategoryDb = subcategoryRepository.findById(id).get();
+    public SubcategoryDto disabled(Long id) throws DataNotFoundException {
+        Subcategory subcategoryDb = subcategoryRepository.findById(id)
+                .orElseThrow(()-> subcategoryNotFoundException(id));
+
         subcategoryDb.setState(State.DISABLE.getValue());
 
         Subcategory subcategory = subcategoryRepository.save(subcategoryDb);
@@ -110,5 +124,13 @@ public class SubcategoryServiceImpl implements SubcategoryService {
         );
 
         return subcategoryDtoPage;
+    }
+
+    private static DataNotFoundException subcategoryNotFoundException(Long id) {
+        return new DataNotFoundException("Subcategoria no encontrado para el id: " + id);
+    }
+
+    private static DataNotFoundException categoryNotFoundException(SubcategorySaveDto subcategoryBody) {
+        return new DataNotFoundException("Cagegoria no encontrado para el id: " + subcategoryBody.getCategoryId());
     }
 }

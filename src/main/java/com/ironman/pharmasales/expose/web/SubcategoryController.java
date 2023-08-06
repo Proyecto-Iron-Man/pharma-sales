@@ -36,7 +36,8 @@ public class SubcategoryController {
     }
 
     @PostMapping
-    public ResponseEntity<SubcategoryDto> create(@Valid @RequestBody SubcategorySaveDto subcategoryBody) {
+    public ResponseEntity<SubcategoryDto> create(@Valid @RequestBody SubcategorySaveDto subcategoryBody)
+            throws DataNotFoundException {
         SubcategoryDto subcategory = subcategoryService.create(subcategoryBody);
 
         return ResponseEntity.ok(subcategory);
@@ -44,14 +45,17 @@ public class SubcategoryController {
 
 
     @PutMapping("/{id}")
-    public ResponseEntity<SubcategoryDto> edit(@PathVariable("id") Long id, @Valid @RequestBody SubcategorySaveDto subcategoryBody) {
+    public ResponseEntity<SubcategoryDto> edit(
+            @PathVariable("id") Long id,
+            @Valid @RequestBody SubcategorySaveDto subcategoryBody
+    ) throws DataNotFoundException {
         SubcategoryDto subcategory = subcategoryService.edit(id, subcategoryBody);
 
         return ResponseEntity.ok(subcategory);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<SubcategoryDto> disabled(@PathVariable("id") Long id) {
+    public ResponseEntity<SubcategoryDto> disabled(@PathVariable("id") Long id) throws DataNotFoundException {
         SubcategoryDto subcategory = subcategoryService.disabled(id);
 
         return ResponseEntity.ok(subcategory);
