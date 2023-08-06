@@ -4,7 +4,13 @@ import com.ironman.pharmasales.application.dto.subcategory.SubcategoryDto;
 import com.ironman.pharmasales.application.dto.subcategory.SubcategoryFilterDto;
 import com.ironman.pharmasales.application.dto.subcategory.SubcategorySaveDto;
 import com.ironman.pharmasales.application.service.SubcategoryService;
+import com.ironman.pharmasales.shared.constant.StatusCode;
 import com.ironman.pharmasales.shared.exception.DataNotFoundException;
+import com.ironman.pharmasales.shared.exception.entity.ArgumentNotValidError;
+import com.ironman.pharmasales.shared.exception.entity.GeneralError;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -22,6 +28,7 @@ import java.util.Optional;
 public class SubcategoryController {
     private final SubcategoryService subcategoryService;
 
+    @ApiResponse(responseCode = StatusCode.OK)
     @GetMapping
     public ResponseEntity<List<SubcategoryDto>> findAll() {
         List<SubcategoryDto> subcategories = subcategoryService.findAll();
@@ -30,6 +37,14 @@ public class SubcategoryController {
                 .body(subcategories);
     }
 
+    @ApiResponse(responseCode = StatusCode.OK)
+    @ApiResponse(
+            responseCode = StatusCode.NOT_FOUND,
+            content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = GeneralError.class)
+            )
+    )
     @GetMapping("/{id}")
     public ResponseEntity<SubcategoryDto> findById(@PathVariable("id") Long id) throws DataNotFoundException {
         SubcategoryDto subcategory = subcategoryService.findById(id);
@@ -38,6 +53,21 @@ public class SubcategoryController {
                 .body(subcategory);
     }
 
+    @ApiResponse(responseCode = StatusCode.CREATED)
+    @ApiResponse(
+            responseCode = StatusCode.BAD_REQUEST,
+            content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = ArgumentNotValidError.class)
+            )
+    )
+    @ApiResponse(
+            responseCode = StatusCode.NOT_FOUND,
+            content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = GeneralError.class)
+            )
+    )
     @PostMapping
     public ResponseEntity<SubcategoryDto> create(@Valid @RequestBody SubcategorySaveDto subcategoryBody)
             throws DataNotFoundException {
@@ -48,6 +78,21 @@ public class SubcategoryController {
     }
 
 
+    @ApiResponse(responseCode = StatusCode.OK)
+    @ApiResponse(
+            responseCode = StatusCode.BAD_REQUEST,
+            content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = ArgumentNotValidError.class)
+            )
+    )
+    @ApiResponse(
+            responseCode = StatusCode.NOT_FOUND,
+            content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = GeneralError.class)
+            )
+    )
     @PutMapping("/{id}")
     public ResponseEntity<SubcategoryDto> edit(
             @PathVariable("id") Long id,
@@ -59,6 +104,14 @@ public class SubcategoryController {
                 .body(subcategory);
     }
 
+    @ApiResponse(responseCode = StatusCode.OK)
+    @ApiResponse(
+            responseCode = StatusCode.NOT_FOUND,
+            content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = GeneralError.class)
+            )
+    )
     @DeleteMapping("/{id}")
     public ResponseEntity<SubcategoryDto> disabled(@PathVariable("id") Long id) throws DataNotFoundException {
         SubcategoryDto subcategory = subcategoryService.disabled(id);
@@ -67,6 +120,7 @@ public class SubcategoryController {
                 .body(subcategory);
     }
 
+    @ApiResponse(responseCode = StatusCode.OK)
     @GetMapping("/filter")
     public ResponseEntity<List<SubcategoryDto>> filter(Optional<SubcategoryFilterDto> filter) {
 
@@ -76,6 +130,7 @@ public class SubcategoryController {
                 .body(subcategories);
     }
 
+    @ApiResponse(responseCode = StatusCode.OK)
     @GetMapping("/pagination-filter")
     public ResponseEntity<Page<SubcategoryDto>> paginationFilter(Pageable pageable, Optional<SubcategoryFilterDto> filter) {
         Page<SubcategoryDto> subcategoryDtoPage = subcategoryService.paginationFilter(pageable, filter);
