@@ -7,6 +7,7 @@ import com.ironman.pharmasales.application.dto.subcategory.mapper.SubcategoryMap
 import com.ironman.pharmasales.application.service.SubcategoryService;
 import com.ironman.pharmasales.persistence.entity.Subcategory;
 import com.ironman.pharmasales.persistence.repository.SubcategoryRepository;
+import com.ironman.pharmasales.shared.exception.DataNotFoundException;
 import com.ironman.pharmasales.shared.state.enums.State;
 import com.ironman.pharmasales.shared.string.StringHelper;
 import lombok.RequiredArgsConstructor;
@@ -34,9 +35,10 @@ public class SubcategoryServiceImpl implements SubcategoryService {
     }
 
     @Override
-    public SubcategoryDto findById(Long id) {
+    public SubcategoryDto findById(Long id) throws DataNotFoundException {
 
-        Subcategory subcategory = subcategoryRepository.findById(id).get();
+        Subcategory subcategory = subcategoryRepository.findById(id)
+                .orElseThrow(()-> new DataNotFoundException("Subcategoria no encontrado para el id: " + id));
 
         return subcategoryMapper.toSubcategoryDto(subcategory);
     }

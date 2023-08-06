@@ -3,6 +3,7 @@ package com.ironman.pharmasales.application.service;
 import com.ironman.pharmasales.application.dto.subcategory.SubcategoryDto;
 import com.ironman.pharmasales.application.dto.subcategory.SubcategoryFilterDto;
 import com.ironman.pharmasales.application.dto.subcategory.SubcategorySaveDto;
+import com.ironman.pharmasales.shared.exception.DataNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -12,7 +13,7 @@ import java.util.Optional;
 public interface SubcategoryService {
     List<SubcategoryDto> findAll();
 
-    SubcategoryDto findById(Long id);
+    SubcategoryDto findById(Long id) throws DataNotFoundException;
 
     SubcategoryDto create(SubcategorySaveDto subcategoryBody);
 

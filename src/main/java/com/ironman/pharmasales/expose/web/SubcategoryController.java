@@ -4,6 +4,7 @@ import com.ironman.pharmasales.application.dto.subcategory.SubcategoryDto;
 import com.ironman.pharmasales.application.dto.subcategory.SubcategoryFilterDto;
 import com.ironman.pharmasales.application.dto.subcategory.SubcategorySaveDto;
 import com.ironman.pharmasales.application.service.SubcategoryService;
+import com.ironman.pharmasales.shared.exception.DataNotFoundException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -28,7 +29,7 @@ public class SubcategoryController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<SubcategoryDto> findById(@PathVariable("id") Long id) {
+    public ResponseEntity<SubcategoryDto> findById(@PathVariable("id") Long id) throws DataNotFoundException {
         SubcategoryDto subcategory = subcategoryService.findById(id);
 
         return ResponseEntity.ok(subcategory);
