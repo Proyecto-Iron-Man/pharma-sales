@@ -5,6 +5,8 @@ import com.ironman.pharmasales.application.dto.subcategory.SubcategoryFilterDto;
 import com.ironman.pharmasales.application.dto.subcategory.SubcategorySaveDto;
 import com.ironman.pharmasales.application.service.SubcategoryService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -59,6 +61,13 @@ public class SubcategoryController {
         List<SubcategoryDto> subcategories = subcategoryService.filter(filter);
 
         return ResponseEntity.ok(subcategories);
+    }
+
+    @GetMapping("/pagination-filter")
+    public ResponseEntity<Page<SubcategoryDto>> paginationFilter(Pageable pageable, Optional<SubcategoryFilterDto> filter) {
+        Page<SubcategoryDto> subcategoryDtoPage = subcategoryService.paginationFilter(pageable, filter);
+
+        return ResponseEntity.ok(subcategoryDtoPage);
     }
 
 }

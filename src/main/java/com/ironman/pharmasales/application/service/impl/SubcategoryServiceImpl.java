@@ -10,6 +10,9 @@ import com.ironman.pharmasales.persistence.repository.SubcategoryRepository;
 import com.ironman.pharmasales.shared.state.enums.State;
 import com.ironman.pharmasales.shared.string.StringHelper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -86,5 +89,24 @@ public class SubcategoryServiceImpl implements SubcategoryService {
         List<Subcategory> subcategories = subcategoryRepository.filter(subcategory);
 
         return subcategoryMapper.toSubcategoryDtos(subcategories);
+    }
+
+    @Override
+    public Page<SubcategoryDto> paginationFilter(Pageable pageable, Optional<SubcategoryFilterDto> filter) {
+        SubcategoryFilterDto filterDto = filter.orElse(new SubcategoryFilterDto());
+
+        Subcategory subcategory = subcategoryMapper.toSubcategory(filterDto);
+
+        Page<Subcategory> subcategoryPage = subcategoryRepository.paginationFilter(pageable, subcategory);
+
+        List<SubcategoryDto> subcategoryDtos = subcategoryMapper.toSubcategoryDtos(subcategoryPage.getContent());
+
+        Page<SubcategoryDto> subcategoryDtoPage = new PageImpl<>(
+                subcategoryDtos,
+                subcategoryPage.getPageable(),
+                subcategoryPage.getTotalElements()
+        );
+
+        return subcategoryDtoPage;
     }
 }
