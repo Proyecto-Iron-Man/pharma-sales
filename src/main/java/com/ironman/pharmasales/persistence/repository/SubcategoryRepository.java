@@ -10,10 +10,10 @@ import java.util.List;
 public interface SubcategoryRepository extends CrudRepository<Subcategory, Long> {
 
     @Query(value = "SELECT s FROM Subcategory s" +
-            " WHERE (:#{#subcategory.name} IS NULL OR s.name LIKE %:#{#subcategory.name}%)" +
-            " AND (:#{#subcategory.description} IS NULL OR s.description LIKE %:#{#subcategory.description}%)" +
+            " WHERE (:#{#subcategory.name} IS NULL OR UPPER(s.name) LIKE UPPER(CONCAT('%',:#{#subcategory.name},'%')))" +
+            " AND (:#{#subcategory.description} IS NULL OR UPPER(s.description) LIKE UPPER(CONCAT('%',:#{#subcategory.description},'%')))" +
             " AND (:#{#subcategory.categoryId}) IS NULL OR s.categoryId = :#{#subcategory.categoryId}" +
-            " AND (:#{#subcategory.state}) IS NULL OR s.state = :#{#subcategory.state}"
+            " AND (:#{#subcategory.state}) IS NULL OR UPPER(s.state) = UPPER(:#{#subcategory.state})"
     )
     List<Subcategory> filter(@Param("subcategory") Subcategory subcategory);
 }
