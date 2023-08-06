@@ -2,6 +2,7 @@ package com.ironman.pharmasales.application.dto.subcategory.mapper;
 
 import com.ironman.pharmasales.application.dto.category.mapper.CategoryMapper;
 import com.ironman.pharmasales.application.dto.subcategory.SubcategoryDto;
+import com.ironman.pharmasales.application.dto.subcategory.SubcategoryFilterDto;
 import com.ironman.pharmasales.application.dto.subcategory.SubcategorySaveDto;
 import com.ironman.pharmasales.persistence.entity.Subcategory;
 import com.ironman.pharmasales.shared.state.mapper.StateMapper;
@@ -44,6 +45,18 @@ public interface SubcategoryMapper {
 
     @InheritConfiguration
     void updateSubcategory(@MappingTarget Subcategory subcategory, SubcategorySaveDto subcategorySaveDto);
+
+
+    @Mapping(target = "name", source = "name")
+    @Mapping(target = "description", source = "description")
+    @Mapping(target = "categoryId", source = "categoryId")
+    @Mapping(target = "state", source = "state")
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "keyword", ignore = true)
+    @Mapping(target = "category", ignore = true)
+    @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "updatedAt", ignore = true)
+    Subcategory  toSubcategory(SubcategoryFilterDto subcategoryFilterDto);
     // Entity from Dto End
 
 

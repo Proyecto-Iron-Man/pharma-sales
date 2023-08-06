@@ -1,6 +1,7 @@
 package com.ironman.pharmasales.application.service.impl;
 
 import com.ironman.pharmasales.application.dto.subcategory.SubcategoryDto;
+import com.ironman.pharmasales.application.dto.subcategory.SubcategoryFilterDto;
 import com.ironman.pharmasales.application.dto.subcategory.SubcategorySaveDto;
 import com.ironman.pharmasales.application.dto.subcategory.mapper.SubcategoryMapper;
 import com.ironman.pharmasales.application.service.SubcategoryService;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -71,5 +73,18 @@ public class SubcategoryServiceImpl implements SubcategoryService {
         Subcategory subcategory = subcategoryRepository.save(subcategoryDb);
 
         return subcategoryMapper.toSubcategoryDto(subcategory);
+    }
+
+    @Override
+    public List<SubcategoryDto> filter(Optional<SubcategoryFilterDto> filter) {
+
+        SubcategoryFilterDto filterDto = filter
+                .orElse(new SubcategoryFilterDto());
+
+        Subcategory subcategory = subcategoryMapper.toSubcategory(filterDto);
+
+        List<Subcategory> subcategories = subcategoryRepository.filter(subcategory);
+
+        return subcategoryMapper.toSubcategoryDtos(subcategories);
     }
 }
