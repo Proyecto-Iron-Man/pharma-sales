@@ -1,7 +1,9 @@
 package com.ironman.pharmasales.expose.web;
 
 import com.ironman.pharmasales.application.dto.documenttype.DocumentTypeDto;
+import com.ironman.pharmasales.application.dto.documenttype.DocumentTypeFilterDto;
 import com.ironman.pharmasales.application.dto.documenttype.DocumentTypeSaveDto;
+import com.ironman.pharmasales.application.dto.documenttype.DocumentTypeSimpleDto;
 import com.ironman.pharmasales.application.service.DocumentTypeService;
 import com.ironman.pharmasales.shared.constant.StatusCode;
 import com.ironman.pharmasales.shared.exception.DataNotFoundException;
@@ -12,11 +14,14 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @RequiredArgsConstructor
@@ -107,5 +112,21 @@ public class DocumentTypeController {
                 .body(documentType);
     }
 
+    @ApiResponse(responseCode = StatusCode.OK)
+    @GetMapping("/select")
+    public ResponseEntity<List<DocumentTypeSimpleDto>> select() {
+        List<DocumentTypeSimpleDto> documentTypes = documentTypeService.select();
 
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(documentTypes);
+    }
+
+    @ApiResponse(responseCode = StatusCode.OK)
+    @GetMapping("/pagination-filter")
+    public ResponseEntity<Page<DocumentTypeDto>>paginationFilter(Pageable pageable, Optional<DocumentTypeFilterDto> filter) {
+        Page<DocumentTypeDto> documentTypeDtoPage = documentTypeService.paginationFilter(pageable, filter);
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(documentTypeDtoPage);
+    }
 }
