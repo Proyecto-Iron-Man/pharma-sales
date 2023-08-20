@@ -6,5 +6,9 @@ import com.ironman.pharmasales.shared.exception.DataNotFoundException;
 
 public interface InvoiceService {
 
+    InvoiceDto findById(Long id) throws DataNotFoundException;
+
     InvoiceDto create(InvoiceSaveDto invoiceSaveDto) throws DataNotFoundException;
+
+    InvoiceDto edit(Long id, InvoiceSaveDto invoiceSaveDto) throws DataNotFoundException;
 }
