@@ -36,7 +36,6 @@ public interface InvoiceMapper {
     @Mapping(target = "invoiceDetails", source = "invoiceDetails")
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "client", ignore = true)
-    @Mapping(target = "user", ignore = true)
     @Mapping(target = "state", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)
