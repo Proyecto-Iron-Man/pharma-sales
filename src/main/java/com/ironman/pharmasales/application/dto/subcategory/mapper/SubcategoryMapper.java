@@ -3,6 +3,7 @@ package com.ironman.pharmasales.application.dto.subcategory.mapper;
 import com.ironman.pharmasales.application.dto.category.mapper.CategoryMapper;
 import com.ironman.pharmasales.application.dto.subcategory.SubcategoryDto;
 import com.ironman.pharmasales.application.dto.subcategory.SubcategoryFilterDto;
+import com.ironman.pharmasales.application.dto.subcategory.SubcategoryMediumDto;
 import com.ironman.pharmasales.application.dto.subcategory.SubcategorySaveDto;
 import com.ironman.pharmasales.persistence.entity.Subcategory;
 import com.ironman.pharmasales.shared.state.mapper.StateMapper;
@@ -28,6 +29,13 @@ public interface SubcategoryMapper {
     @Mapping(target = "updatedAt", source = "updatedAt")
     SubcategoryDto toSubcategoryDto(Subcategory subcategory);
     List<SubcategoryDto> toSubcategoryDtos(List<Subcategory> subcategories);
+
+    @Mapping(target = "id", source = "id")
+    @Mapping(target = "name", source = "name")
+    @Mapping(target = "category", source = "category")
+    SubcategoryMediumDto toSubcategoryMediumDto(Subcategory subcategory);
+
+    List<SubcategoryMediumDto> toSubcategoryMediumDtos(List<Subcategory> subcategories);
     // Dto from Entity End
 
     // Entity from Dto Start
