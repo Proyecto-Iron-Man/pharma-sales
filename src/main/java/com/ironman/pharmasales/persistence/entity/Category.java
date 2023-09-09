@@ -5,6 +5,7 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 
+@Builder
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -17,10 +18,12 @@ public class Category {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "name")
+    @Column(name = "name", unique = true,  nullable = false)
     private String name;
     private String description;
     private String keyword;
+
+    @Column(nullable = false)
     private String state;
 
     @Column(name = "created_at")
