@@ -9,6 +9,7 @@ import com.ironman.pharmasales.shared.exception.DataNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,7 +40,8 @@ public class CategoryController {
     ResponseEntity<CategoryDto> create(@RequestBody CategorySaveDto categoryBody) {
         CategoryDto category = categoryService.create(categoryBody);
 
-        return ResponseEntity.ok(category);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(category);
     }
 
     @PutMapping("/{id}")

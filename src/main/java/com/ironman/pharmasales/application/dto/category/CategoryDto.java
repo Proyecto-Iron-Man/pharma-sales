@@ -1,10 +1,12 @@
 package com.ironman.pharmasales.application.dto.category;
 
 import com.ironman.pharmasales.shared.state.enums.State;
+import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDateTime;
 
+@Builder
 @Data
 public class CategoryDto {
     private Long id;
