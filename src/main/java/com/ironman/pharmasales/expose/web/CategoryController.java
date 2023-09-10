@@ -5,6 +5,7 @@ import com.ironman.pharmasales.application.dto.category.CategoryDto;
 import com.ironman.pharmasales.application.dto.category.CategorySaveDto;
 import com.ironman.pharmasales.application.dto.category.CategorySimpleDto;
 import com.ironman.pharmasales.application.service.CategoryService;
+import com.ironman.pharmasales.shared.exception.DataNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -28,7 +29,7 @@ public class CategoryController {
     }
 
     @GetMapping("/{id}")
-    ResponseEntity<CategoryDto> findById(@PathVariable("id") Long id) {
+    ResponseEntity<CategoryDto> findById(@PathVariable("id") Long id) throws DataNotFoundException {
         CategoryDto category = categoryService.findById(id);
 
         return ResponseEntity.ok(category);

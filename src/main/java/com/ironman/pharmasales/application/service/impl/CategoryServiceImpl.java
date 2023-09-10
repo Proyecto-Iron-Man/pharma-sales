@@ -7,6 +7,7 @@ import com.ironman.pharmasales.application.dto.category.mapper.CategoryMapper;
 import com.ironman.pharmasales.application.service.CategoryService;
 import com.ironman.pharmasales.persistence.entity.Category;
 import com.ironman.pharmasales.persistence.repository.CategoryRepository;
+import com.ironman.pharmasales.shared.exception.DataNotFoundException;
 import com.ironman.pharmasales.shared.state.enums.State;
 import com.ironman.pharmasales.shared.string.StringHelper;
 import lombok.RequiredArgsConstructor;
@@ -35,8 +36,9 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public CategoryDto findById(Long id) {
-        Category category = categoryRepository.findById(id).get();
+    public CategoryDto findById(Long id) throws DataNotFoundException {
+        Category category = categoryRepository.findById(id)
+                .orElseThrow(()-> new DataNotFoundException("Categoria no encontrado para el id: " + id));
 
         CategoryDto categoryDto = categoryMapper.toCategoryDto(category);
 
